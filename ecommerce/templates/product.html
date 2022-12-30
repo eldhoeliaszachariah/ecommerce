@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+        {{ product.des|truncatewords:155 }}
+
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ product.name }} -Abc Store
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="row my_prod_row_class">
+    <div class="mx_auto" >
+        <p><a href="{% url 'myapp:allProdCat' %}">Home</a> | <a href="{{product.category.get_url}}"> {{product.category}} </a>{{product.name}}</p>
+    </div>
+</div>
+	<title>Slider</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+	<div id="content-wrapper">
+
+
+		<div class="column">
+			<img id=featured class="center2" src="{{product.img.url}}">
+
+			<div id="slide-wrapper" >
+				<img id="slideLeft" class="arrow" src="{%  static 'img/arrow-image-transparent-background-2.png' %}">
+
+				<div id="slider">
+					<img class="thumbnail active" src="{{product.img.url}}">
+					<img class="thumbnail" src="{{product.img1.url}}">
+					<img class="thumbnail" src="{{product.img2.url}}">
+
+					<img class="thumbnail" src="{{product.img3.url}}">
+					<img class="thumbnail" src="{{product.img4.url}}">
+				</div>
+
+				<img id="slideRight" class="arrow" src="{%  static 'img/emojipng.com-211448.png' %}">
+			</div>
+		</div>
+
+		<div class="column">
+			<h1>{{product.name}}</h1>
+			<hr>
+			<h3>${{product.price}}</h3>
+
+			<p>{{ product.des|truncatewords:155 }}</p>
+			<a class="btn btn-dark" href="{% url 'cart_app:add_cart' product.id %}">Add to Cart</a>
+		</div>
+
+	</div>
+
+		<script type="text/javascript">
+		let thumbnails = document.getElementsByClassName('thumbnail')
+
+		let activeImages = document.getElementsByClassName('active')
+
+		for (var i=0; i < thumbnails.length; i++){
+
+			thumbnails[i].addEventListener('mouseover', function(){
+				console.log(activeImages)
+
+				if (activeImages.length > 0){
+					activeImages[0].classList.remove('active')
+				}
+
+
+				this.classList.add('active')
+				document.getElementById('featured').src = this.src
+			})
+		}
+
+
+		let buttonRight = document.getElementById('slideRight');
+		let buttonLeft = document.getElementById('slideLeft');
+
+		buttonLeft.addEventListener('click', function(){
+			document.getElementById('slider').scrollLeft -= 180
+		})
+
+		buttonRight.addEventListener('click', function(){
+			document.getElementById('slider').scrollLeft += 180
+		})
+
+
+	</script>
+{% endblock %}
